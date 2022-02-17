@@ -31,18 +31,18 @@ function whatIsHappening() {
     // echo '<h2>$_SESSION</h2>';
     // pre_r($_SESSION);
 }
-whatIsHappening();
+// whatIsHappening();
 
 // Provide some products (you may overwrite the example)
 $products = [
-    ['name' => 'Panda Mug', 'price' => 12],
-    ['name' => 'Seal Mug', 'price' => 12],
-    ['name' => 'Unicorn Mug', 'price' => 13],
-    ['name' => 'Cow Mug', 'price' => 12],
-    ['name' => 'Beans Mug', 'price' => 11.5],
-    ['name' => 'Chalk Mug', 'price' => 9],
-    ['name' => 'Ctrl-Alt-Del Mugset', 'price' => 16],
-    ['name' => 'Anti Theft Mug', 'price' => 8.5],
+    ['name' => 'Panda Mug', 'price' => 12, 'image' => './images/Panda-Mug.jpg'],
+    ['name' => 'Seal Mug', 'price' => 12, 'image' => './images/Seal-Mug.jpg'],
+    ['name' => 'Unicorn Mug', 'price' => 13, 'image' => './images/Unicorn-Mug.jpg'],
+    ['name' => 'Cow Mug', 'price' => 12, 'image' => './images/Cow-Mug.jpg'],
+    ['name' => 'Beans Mug', 'price' => 11.5, 'image' => './images/Beans-Mug.jpg'],
+    ['name' => 'Chalk Mug', 'price' => 9, 'image' => './images/Chalk-Mug.jpg'],
+    ['name' => 'Ctrl-Alt-Del Mugset', 'price' => 16, 'image' => './images/CtrlAltDel-Mugs.jpg'],
+    ['name' => 'Anti Theft Mug', 'price' => 8.5, 'image' => './images/Anti-Theft-Mug.jpg'],
 ];
 
 $totalValue = 0;
@@ -87,12 +87,12 @@ function handleForm()
         foreach ($invalidFields as $field) {
             if ($field === "products") {
                 echo    
-                    '<div class="alert alert-danger" role="alert">
+                    '<div class="alert alert-danger text-center" role="alert">
                     Please select at least 1 product!
                     </div> ';
             } else {
             echo
-                "<div class='alert alert-danger' role='alert'>
+                "<div class='alert alert-danger text-center' role='alert'>
                 Please enter your $field !
                 </div> ";
             }
@@ -100,14 +100,14 @@ function handleForm()
         }
     } else {
         // TODO: handle successful submission
-        echo "<div class='alert alert-success' role='alert'>
-                Your order has been successfully submitted <br>";
-        foreach ($_POST as $field) {
+        echo "<div class='alert alert-success text-center' role='alert'>
+                <h2>Your order has been successfully submitted</h2>";
+        foreach ($_POST as $x => $field) {
             if (is_array($field)){
-                echo "Your order: <br>";
+                echo "<br><h4>Your order: </h4>";
                 yourProducts();
             } else {
-                echo "Your $field <br>";
+                echo "Your $x : <i>$field</i> <br>";
             }
         };
         echo "</div>";
@@ -116,7 +116,6 @@ function handleForm()
 
 function yourProducts() {
     global $products;
-
     foreach ($_POST['products'] as $i => $mug) {
         if ($mug === "1") {
             echo "* " . $products[$i]['name'] . "<br>";
