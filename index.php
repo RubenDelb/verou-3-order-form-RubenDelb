@@ -50,7 +50,30 @@ $totalValue = 0;
 function validate()
 {
     // This function will send a list of invalid fields back
-    return [];
+    $invalidFields = [];
+
+    if (empty($_POST["email"])) {
+        array_push($invalidFields, "email");
+    }
+    if (empty($_POST["street"])) {
+        array_push($invalidFields, "street");
+    }
+    if (empty($_POST["streetnumber"])) {
+        array_push($invalidFields, "streetnumber");
+    }
+    if (empty($_POST["city"])) {
+        array_push($invalidFields, "city");
+    }
+    if (empty($_POST["zipcode"])) {
+        array_push($invalidFields, "zipcode");
+    }
+    if (empty($_POST["products"])) {
+        array_push($invalidFields, "products");
+    }
+    // pre_r($invalidFields);
+    // return the updated array with all invalid fields 
+    return $invalidFields;
+    
 }
 
 function handleForm()
@@ -61,15 +84,50 @@ function handleForm()
     $invalidFields = validate();
     if (!empty($invalidFields)) {
         // TODO: handle errors
+        foreach ($invalidFields as $field) {
+            if ($field === "products") {
+                echo    
+                    '<div class="alert alert-danger" role="alert">
+                    Please select at least 1 product!
+                    </div> ';
+            } else {
+            echo
+                "<div class='alert alert-danger' role='alert'>
+                Please enter your $field !
+                </div> ";
+            }
+            
+        }
     } else {
         // TODO: handle successful submission
+        echo "<div class='alert alert-success' role='alert'>
+                Your order has been successfully submitted <br>";
+        foreach ($_POST as $field) {
+            if (is_array($field)){
+                echo "Your order: <br>";
+                yourProducts();
+            } else {
+                echo "Your $field <br>";
+            }
+        };
+        echo "</div>";
+    }
+}
+
+function yourProducts() {
+    global $products;
+
+    foreach ($_POST['products'] as $i => $mug) {
+        if ($mug === "1") {
+            echo "* " . $products[$i]['name'] . "<br>";
+        }
     }
 }
 
 // TODO: replace this if by an actual check
-$formSubmitted = false;
-if ($formSubmitted) {
-    handleForm();
-}
+// $formSubmitted = false;
+// if (!empty($_POST)) {
+//     handleForm();
+// }
 
 require 'form-view.php';

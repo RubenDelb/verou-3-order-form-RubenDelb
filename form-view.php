@@ -27,7 +27,7 @@
         </ul>
     </nav>
     */ ?>
-    <form method="post">
+    <form method="post" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]);?>">
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="email">E-mail:</label>
@@ -60,13 +60,16 @@
                 </div>
             </div>
         </fieldset>
+        <?php if (!empty($_POST)) {
+            handleForm();
+            } ?>
 
         <fieldset>
             <legend>Products</legend>
             <?php foreach ($products as $i => $product): ?>
                 <label>
 					<?php // <?= is equal to <?php echo ?>
-                    <input type="checkbox" value="1" name="products[<?php echo $i ?>]"/> <?php echo $product['name'] ?> -
+                    <input type="checkbox" value="1" name="products[<?= $i ?>]"/> <?= $product['name'] ?> -
                     &euro; <?= number_format($product['price'], 2) ?></label><br />
             <?php endforeach; ?>
         </fieldset>
@@ -74,9 +77,7 @@
         <button type="submit" class="btn btn-primary">Order!</button>
     </form>
 
-    <?php ?>
-
-    <footer>You already ordered <strong>&euro; <?php echo $totalValue ?></strong> in food and drinks.</footer>
+    <footer>You have only ordered for <strong>&euro; <?= $totalValue ?></strong> in cups. You think that's enough?</footer>
 </div>
 
 <style>
