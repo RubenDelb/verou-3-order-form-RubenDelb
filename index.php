@@ -23,7 +23,14 @@ function whatIsHappening() {
 
 // TODO: provide some products (you may overwrite the example)
 $products = [
-    ['name' => 'Your favourite drink', 'price' => 2.5],
+    ['name' => 'Panda Mug', 'price' => 12],
+    ['name' => 'Seal Mug', 'price' => 12],
+    ['name' => 'Unicorn Mug', 'price' => 13],
+    ['name' => 'Cow Mug', 'price' => 12],
+    ['name' => 'Beans Mug', 'price' => 11.5],
+    ['name' => 'Chalk Mug', 'price' => 9],
+    ['name' => 'Ctrl-Alt-Del Mugset', 'price' => 16],
+    ['name' => 'Anti Theft Mug', 'price' => 8.5],
 ];
 
 $totalValue = 0;
