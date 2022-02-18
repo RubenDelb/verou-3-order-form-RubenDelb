@@ -14,7 +14,7 @@
 <body>
 <div class="container">
     <?php if ($formSubmitted) {
-            handleForm();
+            handleForm($products);
             } ?>
     <h1>Place your order</h1>
     <?php // Navigation for when you need it ?>
@@ -34,7 +34,12 @@
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="email">E-mail:</label>
-                <input type="text" id="email" name="email" class="form-control" value="<?php echo isset($_POST["email"]) ? $_POST["email"] : ''; ?>"/>
+                <input type="email" id="email" name="email" class="form-control" value="
+                    <?php if (isset($_COOKIE["email"])){
+                    echo $_COOKIE["email"];
+                    } else {
+                    echo isset($_POST["email"]) ? $_POST["email"] : '';} 
+                    ?>"/>
             </div>
             <div></div>
         </div>
@@ -45,47 +50,73 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="street">Street:</label>
-                    <input type="text" name="street" id="street" class="form-control" value="<?php echo isset($_POST["street"]) ? $_POST["street"] : ''; ?>">
+                    <input type="text" name="street" id="street" class="form-control" value="<?php if (isset($_COOKIE["street"])){
+                    echo $_COOKIE["street"];
+                    } else { echo isset($_POST["street"]) ? $_POST["street"] : '';} ?>">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="streetnumber">Street number:</label>
-                    <input type="text" id="streetnumber" name="streetnumber" class="form-control" value="<?php echo isset($_POST["streetnumber"]) ? $_POST["streetnumber"] : ''; ?>">
+                    <input type="text" id="streetnumber" name="streetnumber" class="form-control" value="<?php if (isset($_COOKIE["streetnumber"])){
+                    echo $_COOKIE["streetnumber"];
+                    } else {echo isset($_POST["streetnumber"]) ? $_POST["streetnumber"] : '';} ?>">
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="city">City:</label>
-                    <input type="text" id="city" name="city" class="form-control" value="<?php echo isset($_POST["city"]) ? $_POST["city"] : ''; ?>">
+                    <input type="text" id="city" name="city" class="form-control" value="<?php if (isset($_COOKIE["city"])){
+                    echo $_COOKIE["city"];
+                    } else {echo isset($_POST["city"]) ? $_POST["city"] : '';} ?>">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="zipcode">Zipcode</label>
-                    <input type="text" id="zipcode" name="zipcode" class="form-control" value="<?php echo isset($_POST["zipcode"]) ? $_POST["zipcode"] : ''; ?>">
+                    <input type="text" id="zipcode" name="zipcode" class="form-control" value="<?php if (isset($_COOKIE["zipcode"])){
+                    echo $_COOKIE["zipcode"];
+                    } else {echo isset($_POST["zipcode"]) ? $_POST["zipcode"] : '';} ?>">
                 </div>
             </div>
         </fieldset>
 
-        <fieldset>
+        <fieldset class="productsSection">
             <legend>Products</legend>
             <?php foreach ($products as $i => $product): ?>
                 <label>
-                    <input type="checkbox" value="1" name="products[<?= $i ?>]"/>
-                    <img src="<?= $product['image'] ?>" style="width:150px">
+                    <input type="checkbox" value="<?= $i ?>" name="products[<?= $i ?>]"/>
+                    <img class="mugImages" src="<?= $product['image'] ?>" style="width:150px">
                     <?= $product['name'] ?> -
                     &euro; <?= number_format($product['price'], 2) ?> 
                     
-                </label><br />
+                </label>
             <?php endforeach; ?>
         </fieldset>
 
         <button type="submit" class="btn btn-primary">Order!</button>
     </form>
 
-    <footer>You have only ordered for <strong>&euro; <?= $totalValue ?></strong> in cups. You think that's enough?</footer>
+    <footer>You have only ordered for <strong>&euro; <?= calculateTotalPrice($products) ?></strong> in cups. You think that's enough?</footer>
 </div>
 
 <style>
+    body {
+        background-color: #E5E3C9;
+    }
+    .productsSection {
+        padding: 20px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, 200px);
+        background-color: #B4CFB0;
+        border-radius: 20px;
+    }
+
+    .mugImages {
+        border-radius: 10px;
+    }
+    
     footer {
+        background-color: #789395;
         text-align: center;
+        border-radius: 20px;
+        padding: 20px;
     }
 </style>
 </body>

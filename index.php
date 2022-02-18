@@ -83,7 +83,7 @@ function test_input($data) {
     return $data;
 }
 
-function handleForm()
+function handleForm($products)
 {
     // TODO: form related tasks (step 1)
     echo "<br/>";
@@ -113,29 +113,40 @@ function handleForm()
     }
     else {
         // TODO: handle successful submission
-        echo "<div class='alert alert-success text-center' role='alert'>
+        echo "<div class='alert alert-info text-center' role='alert'>
                 <h2>Your order has been successfully submitted</h2>";
         foreach ($_POST as $x => $field) {
+            // pre_r($_POST);
+            // pre_r($x);
+            // pre_r($field);
             if (is_array($field)){
                 echo "<br><h4>Your order: </h4>";
-                yourProducts();
+                yourProducts($products);
             } else {
+                setcookie($x, $field, time() + (60 * 30), "/");
                 echo "Your $x : <i>$field</i> <br>";
             }
-        };
+        }
         echo "</div>";
     }
 }
 
-function yourProducts() {
-    global $products;
-    foreach ($_POST['products'] as $i => $mug) {
-        if ($mug === "1") {
-            echo "* " . $products[$i]['name'] . "<br>";
-        }
+function yourProducts($products) {
+    foreach ($_POST['products'] as $i) {
+        echo "* " . $products[$i]['name'] . "<br>";
     }
 }
 
+function calculateTotalPrice($products) {
+    $totalPrice = 0;
+    if (!empty($_POST['products'])) {
+        
+        foreach ($_POST['products'] as $i) {
+            $totalPrice += $products[$i]['price'];
+        }
+    }
+    return $totalPrice;
+}
 // TODO: replace this if by an actual check
 $formSubmitted = false;
 if (!empty($_POST)) {
