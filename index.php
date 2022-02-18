@@ -76,29 +76,42 @@ function validate()
     
 }
 
+function test_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
 function handleForm()
 {
     // TODO: form related tasks (step 1)
-
+    echo "<br/>";
     // Validation (step 2)
     $invalidFields = validate();
+
+    $email = test_input($_POST["email"]);
+
     if (!empty($invalidFields)) {
         // TODO: handle errors
+        echo '<div class="alert alert-danger text-center" role="alert">';
         foreach ($invalidFields as $field) {
             if ($field === "products") {
-                echo    
-                    '<div class="alert alert-danger text-center" role="alert">
-                    Please select at least 1 product!
-                    </div> ';
+                echo "Please select at least 1 product! <br/>";
             } else {
-            echo
-                "<div class='alert alert-danger text-center' role='alert'>
-                Please enter your $field !
-                </div> ";
+                echo "Please enter your $field <br/>";
             }
-            
         }
-    } else {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            echo "Invalid email format ";
+        }
+        echo '</div>';
+    } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo '<div class="alert alert-danger text-center" role="alert">
+            Invalid email format 
+            </div>';
+    }
+    else {
         // TODO: handle successful submission
         echo "<div class='alert alert-success text-center' role='alert'>
                 <h2>Your order has been successfully submitted</h2>";
@@ -124,9 +137,9 @@ function yourProducts() {
 }
 
 // TODO: replace this if by an actual check
-// $formSubmitted = false;
-// if (!empty($_POST)) {
-//     handleForm();
-// }
+$formSubmitted = false;
+if (!empty($_POST)) {
+    $formSubmitted = true;
+}
 
 require 'form-view.php';
