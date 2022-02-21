@@ -102,47 +102,50 @@ function handleForm($products)
 
     if (!empty($invalidFields)) {
         // TODO: handle errors
-        echo '<div class="alert alert-danger text-center" role="alert">';
+        $message = '<div class="alert alert-danger text-center" role="alert">';
         foreach ($invalidFields as $field) {
             if ($field === "products") {
-                echo "Please select at least 1 product! <br/>";
+                $message .= "Please select at least 1 product! <br/>";
             } else {
-                echo "Please enter your $field <br/>";
+                $message .= "Please enter your $field <br/>";
             }
         }
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            echo "Invalid email format ";
+            $message .= "Invalid email format ";
         }
-        echo '</div>';
+        $message .= '</div>';
     } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        echo '<div class="alert alert-danger text-center" role="alert">
+        $message = '<div class="alert alert-danger text-center" role="alert">
             Invalid email format 
             </div>';
     }
     else {
         // TODO: handle successful submission
-        echo "<div class='alert alert-info text-center' role='alert'>
+        $message = "<div class='alert alert-info text-center' role='alert'>
                 <h2>Your order has been successfully submitted</h2>";
         foreach ($_POST as $x => $field) {
             // pre_r($_POST);
             // pre_r($x);
             // pre_r($field);
             if (is_array($field)){
-                echo "<br><h4>Your order: </h4>";
-                yourProducts($products);
+                $message .= "<br><h4>Your order: </h4>";
+                $message .= yourProducts($products);
             } else {
                 // setcookie($x, $field, time() + (60*60*60), "/");
-                echo "Your $x : <i>$field</i> <br>";
+                $message .= "Your $x : <i>$field</i> <br>";
             }
         }
-        echo "</div>";
+        $message .= "</div>";
     }
+    return $message;
 }
 
 function yourProducts($products) {
+    $orderedProductList = '';
     foreach ($_POST['products'] as $i) {
-        echo "* " . $products[$i]['name'] . "<br>";
+        $orderedProductList .= "* " . $products[$i]['name'] . "<br>";
     }
+    return $orderedProductList;
 }
 
 function calculateTotalPrice($products) {
@@ -156,9 +159,9 @@ function calculateTotalPrice($products) {
     return $totalPrice;
 }
 // TODO: replace this if by an actual check
-$formSubmitted = false;
-if (!empty($_POST)) {
-    $formSubmitted = true;
+$formSubmitted = !empty($_POST);
+if ($formSubmitted) {
+    $message = handleForm($products);
 }
 
 require 'form-view.php';

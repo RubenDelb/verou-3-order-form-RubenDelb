@@ -13,9 +13,7 @@
 </head>
 <body>
 <div class="container">
-    <?php if ($formSubmitted) {
-            handleForm($products);
-            } ?>
+    <?php if (isset($message)) {echo $message;} ?>
     <h1>Place your order</h1>
     <?php // Navigation for when you need it ?>
     <?php /*
