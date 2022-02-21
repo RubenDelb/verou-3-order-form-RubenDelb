@@ -14,6 +14,14 @@ error_reporting(E_ALL);
 // We are going to use session variables so we need to enable sessions
 session_start();
 
+if (!empty($_POST)) {
+    $_SESSION["email"] = $_POST["email"];
+    $_SESSION["street"] = $_POST["street"];
+    $_SESSION["streetnumber"] = $_POST["streetnumber"];
+    $_SESSION["city"] = $_POST["city"];
+    $_SESSION["zipcode"] = $_POST["zipcode"];
+}
+
 // Use this function when you need to need an overview of these variables
 function pre_r( $array ) {
     echo '<pre>';
@@ -22,14 +30,14 @@ function pre_r( $array ) {
 }
 
 function whatIsHappening() {
-    echo '<h2>$_GET</h2>';
-    pre_r($_GET);
-    echo '<h2>$_POST</h2>';
-    pre_r($_POST);
+    // echo '<h2>$_GET</h2>';
+    // pre_r($_GET);
+    // echo '<h2>$_POST</h2>';
+    // pre_r($_POST);
     // echo '<h2>$_COOKIE</h2>';
     // pre_r($_COOKIE);
-    // echo '<h2>$_SESSION</h2>';
-    // pre_r($_SESSION);
+    echo '<h2>$_SESSION</h2>';
+    pre_r($_SESSION);
 }
 // whatIsHappening();
 
@@ -123,7 +131,7 @@ function handleForm($products)
                 echo "<br><h4>Your order: </h4>";
                 yourProducts($products);
             } else {
-                setcookie($x, $field, time() + (60 * 30), "/");
+                // setcookie($x, $field, time() + (60*60*60), "/");
                 echo "Your $x : <i>$field</i> <br>";
             }
         }
