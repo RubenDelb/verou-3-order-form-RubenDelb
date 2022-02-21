@@ -71,44 +71,51 @@
         </fieldset>
 
         <fieldset class="productsSection">
-            <legend>Products</legend>
+            <legend class="productLegend">Products</legend>
             <?php foreach ($products as $i => $product): ?>
                 <label>
                     <input type="checkbox" value="<?= $i ?>" name="products[<?= $i ?>]"/>
-                    <img class="mugImages" src="<?= $product['image'] ?>" style="width:150px">
-                    <?= $product['name'] ?> -
+                    <img class="mugImages" src="<?= $product['image'] ?>">
+                    <?= $product['name'] ?> <br>
                     &euro; <?= number_format($product['price'], 2) ?> 
                     
                 </label>
             <?php endforeach; ?>
         </fieldset>
 
-        <button type="submit" class="btn btn-primary">Order!</button>
+        <button type="submit" class="btn btn-primary submitBtn">Order!</button>
     </form>
 
-    <footer>You have only ordered for <strong>&euro; <?= calculateTotalPrice($products) ?></strong> in cups. You think that's enough?</footer>
+    
 </div>
-
+<footer>You have only ordered for <strong>&euro; <?= calculateTotalPrice($products) ?></strong> in cups. You really think that's enough?</footer>
 <style>
     body {
         background-color: #E5E3C9;
     }
     .productsSection {
+        text-align: center;
         padding: 20px;
         display: grid;
         grid-template-columns: repeat(auto-fill, 200px);
         background-color: #B4CFB0;
         border-radius: 20px;
     }
+    .productLegend {
+        padding-top: 40px;
+    }
 
     .mugImages {
+        width:150px;
+        height:160px;
         border-radius: 10px;
     }
-    
+    .submitBtn {
+        margin: 20px 0px;
+    }
     footer {
         background-color: #789395;
         text-align: center;
-        border-radius: 20px;
         padding: 20px;
     }
 </style>
